@@ -13,11 +13,12 @@ public class DamageAttack extends Attack {
         int roll = random.nextInt(100) + 1 ;
 
         if (roll > getAccuracy()){
-            System.out.println(attacker.getName() + " missed " );
+            System.out.println(attacker.getName() + " used " + getName() + ", but missed!");
             return;
         }
-
+        System.out.println(attacker.getName() + " used " + getName() + "!");
         defender.takeDamage(getDamage());
+        System.out.println(defender.getName() + " took " + getDamage() + " damage!");
 
     }
 
