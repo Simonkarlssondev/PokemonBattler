@@ -20,7 +20,8 @@ public class Battle {
         System.out.println(playerPokemon.getName() + " vs " + enemyPokemon.getName());
         System.out.println(playerPokemon.getName() + " Starts!");
 
-        while (playerPokemon.getCurrentHp() > 0 && enemyPokemon.getCurrentHp() > 0) {
+        while (!playerPokemon.isDefeated() && !enemyPokemon.isDefeated()) {
+
 
 
             showPlayerAttacks();
@@ -37,6 +38,11 @@ public class Battle {
 
             System.out.println(playerPokemon.getName() + "HP: " + playerPokemon.getCurrentHp());
 
+        }
+        if (playerPokemon.isDefeated()) {
+            System.out.println(enemyPokemon.getName()+ " Wins! ");
+        }else{
+            System.out.println(playerPokemon.getName()+ " Wins! ");
         }
     }
 

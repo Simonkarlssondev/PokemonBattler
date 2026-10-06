@@ -73,6 +73,9 @@ public class Pokemon {
             currentHp = 0;
         }
     }
+    public boolean isDefeated() {
+        return currentHp <= 0;
+    }
 
 
     @Override
