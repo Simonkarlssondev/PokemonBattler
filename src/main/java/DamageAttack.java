@@ -17,8 +17,11 @@ public class DamageAttack extends Attack {
             return;
         }
         System.out.println(attacker.getName() + " used " + getName() + "!");
-        defender.takeDamage(getDamage());
-        System.out.println(defender.getName() + " took " + getDamage() + " damage!");
+        double multiplier = TypeEffectiveness.getMultiplier(getType(), defender.getType());
+        int damage = (int) (getDamage() * multiplier);
+
+        defender.takeDamage(damage);
+        System.out.println(defender.getName() + " took " + damage + " damage!");
 
     }
 

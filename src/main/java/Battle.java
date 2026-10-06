@@ -33,10 +33,16 @@ public class Battle {
 
             System.out.println(enemyPokemon.getName() + "HP: " + enemyPokemon.getCurrentHp());
 
+            if (enemyPokemon.isDefeated()) {
+                break;
+            }
+
             Attack enemyAttack = chooseEnemyAttack();
             enemyAttack.execute(enemyPokemon, playerPokemon);
 
             System.out.println(playerPokemon.getName() + "HP: " + playerPokemon.getCurrentHp());
+
+
 
         }
         if (playerPokemon.isDefeated()) {
