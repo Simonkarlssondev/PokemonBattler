@@ -18,7 +18,8 @@ public class DamageAttack extends Attack {
         }
         System.out.println(attacker.getName() + " used " + getName() + "!");
         double multiplier = TypeEffectiveness.getMultiplier(getType(), defender.getType());
-        int damage = (int) (getDamage() * multiplier);
+        double randomFactor = 0.85 + random.nextDouble() * 0.15;
+        int damage = (int) (getDamage() * multiplier * randomFactor);
 
         defender.takeDamage(damage);
         System.out.println(defender.getName() + " took " + damage + " damage!");
