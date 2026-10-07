@@ -8,12 +8,14 @@ public class Battle {
     private Pokemon enemyPokemon;
     private Scanner scanner;
     private Random random;
+    private BattleStats stats;
 
-    public Battle(Pokemon playerPokemon, Pokemon enemyPokemon) {
+    public Battle(Pokemon playerPokemon, Pokemon enemyPokemon, BattleStats stats) {
         this.playerPokemon = playerPokemon;
         this.enemyPokemon = enemyPokemon;
         this.scanner = new Scanner(System.in);
         this.random = new Random();
+        this.stats = stats;
     }
 
     public void start() {
@@ -47,8 +49,10 @@ public class Battle {
         }
         if (playerPokemon.isDefeated()) {
             System.out.println(enemyPokemon.getName()+ " Wins! ");
+            stats.addLoss();
         }else{
             System.out.println(playerPokemon.getName()+ " Wins! ");
+            stats.addWin();
         }
     }
 

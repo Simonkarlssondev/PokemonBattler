@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
-
+import java.util.Random;
 
 public class Pokedex {
+    private static BattleStats battleStats = new BattleStats();
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
@@ -17,9 +18,9 @@ public class Pokedex {
         }
 
         while (true) {
-            System.out.println("==== Pokedex ====\n1. All Pokemons\n2. Add Pokemon\n3. Edit Pokemon\n4. Delete Pokemon\n5. Save to file\n6. Load from file\n7. Reset to seeded data\n8. Exit");
+            System.out.println("==== Pokedex ====\n1. All Pokemons\n2. Add Pokemon\n3. Edit Pokemon\n4. Delete Pokemon\n5. Save to file\n6. Load from file\n7. Reset to seeded data\n8. Start battle\n9. Battle results\n10. Exit");
 
-            int val = InputHelper.readIntBetween(scanner, " Choose: ", 1, 8);
+            int val = InputHelper.readIntBetween(scanner, " Choose: ", 1, 10);
 
             switch (val) {
                 case 1 -> displayAllPokemons();
@@ -29,7 +30,9 @@ public class Pokedex {
                 case 5 -> saveToFile();
                 case 6 -> loadFromFile();
                 case 7 -> resetSeedData();
-                case 8 -> {
+                case 8 -> startBattle(scanner);
+                case 9 -> displayBattleResults();
+                case 10 -> {
                     saveToFile();
                     exitProgram();
                     scanner.close();
@@ -180,7 +183,7 @@ public class Pokedex {
                     case 2 -> pokemon.setType(PokeElement.WATER);
                     case 3 -> pokemon.setType(PokeElement.ELECTRIC);
                     case 4 -> pokemon.setType(PokeElement.GRASS);
-                     case 5 -> pokemon.setType(PokeElement.ICE);
+                    case 5 -> pokemon.setType(PokeElement.ICE);
                     case 6 -> pokemon.setType(PokeElement.NORMAL);
 
                 }
@@ -328,11 +331,48 @@ public class Pokedex {
         }
     }
 
+    private static void startBattle(Scanner scanner) {
+        if (PokemonData.pokemons.isEmpty()) {
+            System.out.println("There are no Pokemon available for battle.");
+            return;
+        }
+        System.out.println("Choose your Pokemon: ");
+
+        for (int i = 0; i < PokemonData.pokemons.size(); i++) {
+            System.out.println((i + 1) + ". " + PokemonData.pokemons.get(i));
+        }
+        int pokemonChoice = InputHelper.readIntBetween(scanner, "Choose: ", 1, PokemonData.pokemons.size());
+        Pokemon playerPokemon = PokemonData.pokemons.get(pokemonChoice - 1);
+
+        Random random = new Random();
+        Pokemon enemyPokemon;
+
+        do {
+            enemyPokemon = PokemonData.pokemons.get(random.nextInt(PokemonData.pokemons.size()));
+        } while (enemyPokemon == playerPokemon);
+
+
+        System.out.println(" Wild " + enemyPokemon.getName() + " appeared! ");
+        playerPokemon.resetHp();
+        enemyPokemon.resetHp();
+
+
+        Battle battle = new Battle(playerPokemon, enemyPokemon, battleStats);
+        battle.start();
+
+    }
+
     public static void resetSeedData() {
         PokemonData.pokemons.clear();
         PokemonData.seedData();
 
 
+    }
+
+    public static void displayBattleResults(){
+        System.out.println("==== Battle Results ====");
+        System.out.println("Wins: " + battleStats.getWins());
+        System.out.println("Losses: " + battleStats.getLosses());
     }
 
 
