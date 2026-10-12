@@ -28,7 +28,12 @@ public class InputHelper {
         while (true) {
             System.out.print(prompt);
 
+            if (!scanner.hasNextLine()) {
+                throw new java.util.NoSuchElementException("Input ended.");
+            }
             String input = scanner.nextLine();
+
+
             try {
                 int value = Integer.parseInt(input.trim());
 
