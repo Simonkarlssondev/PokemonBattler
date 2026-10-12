@@ -1,3 +1,7 @@
+package data;
+
+import model.BattleStats;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

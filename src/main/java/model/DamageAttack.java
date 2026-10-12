@@ -1,3 +1,5 @@
+package model;
+import service.TypeEffectiveness;
 import java.util.Random;
 
 

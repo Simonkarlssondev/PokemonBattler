@@ -1,7 +1,13 @@
+package data;
+
+import model.Attack;
+import model.DamageAttack;
+import model.PokeElement;
+
 import java.util.ArrayList;
 
 public class PokeAttacks {
-    static ArrayList<Attack> attacks = new ArrayList<>();
+   public static ArrayList<Attack> attacks = new ArrayList<>();
     public static void seedAttacks() {
         attacks.clear();
 

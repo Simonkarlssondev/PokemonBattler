@@ -1,7 +1,12 @@
+package data;
+
+import model.PokeElement;
+import model.Pokemon;
+
 import java.util.ArrayList;
 
 public class PokemonData {
-    static ArrayList<Pokemon> pokemons = new ArrayList<>();
+   public static ArrayList<Pokemon> pokemons = new ArrayList<>();
     public static void seedData() {
         PokeAttacks.seedAttacks();
 

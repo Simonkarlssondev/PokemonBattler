@@ -1,3 +1,4 @@
+package model;
 
 import java.util.ArrayList;
 
@@ -50,6 +51,12 @@ public class Pokemon {
     public int getCurrentHp() {
         return currentHp;
     }
+
+    public void resetHp(){
+        currentHp = maxHp;
+    }
+
+
     public void setCurrentHp(int currentHp) {
         if (currentHp < 0 || currentHp > maxHp) {
             throw new IllegalArgumentException("Current HP must be between 0 and max HP");

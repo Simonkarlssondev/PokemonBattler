@@ -1,3 +1,7 @@
+package service;
+
+import model.PokeElement;
+
 public class TypeEffectiveness {
 
     public static double getMultiplier(PokeElement attackType, PokeElement defenderType) {

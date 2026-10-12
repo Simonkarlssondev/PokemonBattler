@@ -1,3 +1,10 @@
+package service;
+
+import model.Attack;
+import model.BattleStats;
+import model.Pokemon;
+import util.InputHelper;
+
 import java.util.Scanner;
 import java.util.Random;
 
@@ -23,7 +30,7 @@ public class Battle {
         System.out.println(playerPokemon.getName() + " Starts!");
 
         if (playerPokemon.getAttacks().isEmpty() || enemyPokemon.getAttacks().isEmpty()) {
-            System.out.println("Both Pokemon must have at least one attack!");
+            System.out.println("Both model.Pokemon must have at least one attack!");
             return;
         }
 
@@ -36,7 +43,7 @@ public class Battle {
             try {
                 attackChoice = chooseAttack();
             } catch (java.util.NoSuchElementException e) {
-                System.out.println("\nInput ended. Battle aborted. ");
+                System.out.println("\nInput ended. service.Battle aborted. ");
                 return;
             }
             Attack selectedAttack = playerPokemon.getAttacks().get(attackChoice - 1);

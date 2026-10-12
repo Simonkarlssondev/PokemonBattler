@@ -1,3 +1,5 @@
+package model;
+
 public abstract class Attack {
     private String name;
     private int damage;
