@@ -3,6 +3,7 @@ import java.util.ArrayList;
 public class PokeAttacks {
     static ArrayList<Attack> attacks = new ArrayList<>();
     public static void seedAttacks() {
+        attacks.clear();
 
 
 

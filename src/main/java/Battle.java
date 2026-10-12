@@ -27,11 +27,7 @@ public class Battle {
             return;
         }
 
-
-
         while (!playerPokemon.isDefeated() && !enemyPokemon.isDefeated()) {
-
-
 
             showPlayerAttacks();
 
@@ -46,7 +42,7 @@ public class Battle {
             Attack selectedAttack = playerPokemon.getAttacks().get(attackChoice - 1);
             selectedAttack.execute(playerPokemon, enemyPokemon);
 
-            System.out.println(enemyPokemon.getName() + "HP: " + enemyPokemon.getCurrentHp());
+            System.out.println(enemyPokemon.getName() + " HP: " + enemyPokemon.getCurrentHp());
 
             if (enemyPokemon.isDefeated()) {
                 break;
@@ -55,9 +51,7 @@ public class Battle {
             Attack enemyAttack = chooseEnemyAttack();
             enemyAttack.execute(enemyPokemon, playerPokemon);
 
-            System.out.println(playerPokemon.getName() + "HP: " + playerPokemon.getCurrentHp());
-
-
+            System.out.println(playerPokemon.getName() + " HP: " + playerPokemon.getCurrentHp());
 
         }
         if (playerPokemon.isDefeated()) {

@@ -13,14 +13,27 @@ public class Pokedex {
         Scanner scanner = new Scanner(System.in);
         PokemonData.seedData();
 
+
         if (new java.io.File("pokedex.csv").exists()) {
             loadFromFile();
+        }
+
+        if (new java.io.File("battle_stats.txt").exists()) {
+            BattleStatsStorage.load(battleStats);
+
         }
 
         while (true) {
             System.out.println("==== Pokedex ====\n1. All Pokemons\n2. Add Pokemon\n3. Edit Pokemon\n4. Delete Pokemon\n5. Save to file\n6. Load from file\n7. Reset to seeded data\n8. Start battle\n9. Battle results\n10. Exit");
 
-            int val = InputHelper.readIntBetween(scanner, " Choose: ", 1, 10);
+            int val;
+
+            try {
+                val = InputHelper.readIntBetween(scanner, "Choose: ", 1, 10);
+            } catch (java.util.NoSuchElementException e) {
+                System.out.println("\nInput ended. Program closed.");
+                break;
+            }
 
             switch (val) {
                 case 1 -> displayAllPokemons();
@@ -34,6 +47,7 @@ public class Pokedex {
                 case 9 -> displayBattleResults();
                 case 10 -> {
                     saveToFile();
+                    BattleStatsStorage.save(battleStats);
                     exitProgram();
                     scanner.close();
                     return;
@@ -273,7 +287,7 @@ public class Pokedex {
             while ((line = reader.readLine()) != null) {
 
 
-                String[] parts = line.split(";");
+                String[] parts = line.split(";", -1);
                 if (parts.length != 5) {
                     throw new IllegalArgumentException("Invalid CSV format");
                 }
@@ -281,7 +295,7 @@ public class Pokedex {
                 int maxHp = Integer.parseInt(parts[2]);
                 int currentHp = Integer.parseInt(parts[3]);
 
-                if (maxHp <= 0 || maxHp > 1000 || currentHp <= 0 || currentHp > maxHp) {
+                if (maxHp <= 0 || maxHp > 1000 || currentHp < 0 || currentHp > maxHp) {
                     throw new IllegalArgumentException("Invalid HP ");
                 }
 
@@ -327,7 +341,7 @@ public class Pokedex {
 
 
         } catch (IOException | IllegalArgumentException e) {
-            System.out.println("Could not load the Pokemon");
+            System.out.println("Could not load the Pokemon: " + e.getMessage());
         }
     }
 
@@ -336,6 +350,12 @@ public class Pokedex {
             System.out.println("There are no Pokemon available for battle.");
             return;
         }
+
+        if (PokemonData.pokemons.size() < 2) {
+            System.out.println("You need at least 2 Pokemon to start a battle.");
+            return;
+        }
+
         System.out.println("Choose your Pokemon: ");
 
         for (int i = 0; i < PokemonData.pokemons.size(); i++) {
@@ -343,6 +363,11 @@ public class Pokedex {
         }
         int pokemonChoice = InputHelper.readIntBetween(scanner, "Choose: ", 1, PokemonData.pokemons.size());
         Pokemon playerPokemon = PokemonData.pokemons.get(pokemonChoice - 1);
+
+        if (playerPokemon.isDefeated()) {
+            System.out.println("This Pokemon has 0 HP and cannot battle.");
+            return;
+        }
 
         Random random = new Random();
         Pokemon enemyPokemon;
@@ -357,7 +382,7 @@ public class Pokedex {
         enemyPokemon.resetHp();
 
 
-        Battle battle = new Battle(playerPokemon, enemyPokemon, battleStats);
+        Battle battle = new Battle(playerPokemon, enemyPokemon, battleStats, scanner);
         battle.start();
 
     }
@@ -369,7 +394,7 @@ public class Pokedex {
 
     }
 
-    public static void displayBattleResults(){
+    public static void displayBattleResults() {
         System.out.println("==== Battle Results ====");
         System.out.println("Wins: " + battleStats.getWins());
         System.out.println("Losses: " + battleStats.getLosses());
