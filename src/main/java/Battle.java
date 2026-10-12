@@ -10,10 +10,10 @@ public class Battle {
     private Random random;
     private BattleStats stats;
 
-    public Battle(Pokemon playerPokemon, Pokemon enemyPokemon, BattleStats stats) {
+    public Battle(Pokemon playerPokemon, Pokemon enemyPokemon, BattleStats stats, Scanner scanner) {
         this.playerPokemon = playerPokemon;
         this.enemyPokemon = enemyPokemon;
-        this.scanner = new Scanner(System.in);
+        this.scanner = scanner;
         this.random = new Random();
         this.stats = stats;
     }
@@ -22,15 +22,28 @@ public class Battle {
         System.out.println(playerPokemon.getName() + " vs " + enemyPokemon.getName());
         System.out.println(playerPokemon.getName() + " Starts!");
 
+        if (playerPokemon.getAttacks().isEmpty() || enemyPokemon.getAttacks().isEmpty()) {
+            System.out.println("Both Pokemon must have at least one attack!");
+            return;
+        }
+
+
+
         while (!playerPokemon.isDefeated() && !enemyPokemon.isDefeated()) {
 
 
 
             showPlayerAttacks();
 
-            int attackChoice = chooseAttack();
-            Attack selectedAttack = playerPokemon.getAttacks().get(attackChoice - 1);
+            int attackChoice;
 
+            try {
+                attackChoice = chooseAttack();
+            } catch (java.util.NoSuchElementException e) {
+                System.out.println("\nInput ended. Battle aborted. ");
+                return;
+            }
+            Attack selectedAttack = playerPokemon.getAttacks().get(attackChoice - 1);
             selectedAttack.execute(playerPokemon, enemyPokemon);
 
             System.out.println(enemyPokemon.getName() + "HP: " + enemyPokemon.getCurrentHp());
