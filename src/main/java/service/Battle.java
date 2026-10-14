@@ -26,8 +26,12 @@ public class Battle {
     }
 
     public void start() {
-        System.out.println(playerPokemon.getName() + " vs " + enemyPokemon.getName());
-        System.out.println(playerPokemon.getName() + " Starts!");
+        System.out.println("================================");
+        System.out.println("       " + playerPokemon.getName().toUpperCase() + " VS " + enemyPokemon.getName().toUpperCase());
+        System.out.println("================================");
+        System.out.println();
+        System.out.println(playerPokemon.getName() + " starts!");
+        System.out.println();
 
         if (playerPokemon.getAttacks().isEmpty() || enemyPokemon.getAttacks().isEmpty()) {
             System.out.println("Both model.Pokemon must have at least one attack!");
@@ -50,6 +54,7 @@ public class Battle {
             selectedAttack.execute(playerPokemon, enemyPokemon);
 
             System.out.println(enemyPokemon.getName() + " HP: " + enemyPokemon.getCurrentHp());
+            System.out.println("================================");
 
             if (enemyPokemon.isDefeated()) {
                 break;
@@ -59,6 +64,7 @@ public class Battle {
             enemyAttack.execute(enemyPokemon, playerPokemon);
 
             System.out.println(playerPokemon.getName() + " HP: " + playerPokemon.getCurrentHp());
+            System.out.println("================================");
 
         }
         if (playerPokemon.isDefeated()) {
@@ -71,9 +77,11 @@ public class Battle {
     }
 
     private void showPlayerAttacks() {
+        System.out.println("---| Choose your attack |---");
         for (int i = 0; i < playerPokemon.getAttacks().size(); i++) {
             System.out.println((i + 1) + ". " + playerPokemon.getAttacks().get(i).getName());
         }
+        System.out.println("--------------------------------");
     }
 
     private int chooseAttack() {
