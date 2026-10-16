@@ -1,3 +1,13 @@
+import data.BattleStatsStorage;
+import data.PokeAttacks;
+import data.PokemonData;
+import model.Attack;
+import model.BattleStats;
+import model.PokeElement;
+import model.Pokemon;
+import service.Battle;
+import util.InputHelper;
+
 import java.util.Scanner;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -361,7 +371,13 @@ public class Pokedex {
         for (int i = 0; i < PokemonData.pokemons.size(); i++) {
             System.out.println((i + 1) + ". " + PokemonData.pokemons.get(i));
         }
-        int pokemonChoice = InputHelper.readIntBetween(scanner, "Choose: ", 1, PokemonData.pokemons.size());
+        int pokemonChoice;
+        try {
+            pokemonChoice = InputHelper.readIntBetween(scanner, "Choose: ", 1, PokemonData.pokemons.size());
+        }catch (java.util.NoSuchElementException e){
+            System.out.println("\nInput ended. Program closed.");
+            return;
+        }
         Pokemon playerPokemon = PokemonData.pokemons.get(pokemonChoice - 1);
 
         if (playerPokemon.isDefeated()) {
